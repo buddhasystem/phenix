@@ -1,7 +1,10 @@
 #!/usr/local/bin/tcsh -f
 
+echo 'location of libraries:' $HOME/install/lib
+ls $HOME/install/lib
+
 source /opt/phenix/bin/phenix_setup.csh
-setenv LD_LIBRARY_PATH /phenix/hhj/hachiya/15.08/source/PHParticleGen/install/lib/:$LD_LIBRARY_PATH
+setenv LD_LIBRARY_PATH $HOME/install/lib/:$LD_LIBRARY_PATH
 
 echo $LD_LIBRARY_PATH
 
@@ -12,6 +15,7 @@ set max = 97
 
 #set pnamel = ("em" "pip" "pim")
 #set pidl   = ("11" "211" "-211")
+
 set pnamel = ("pip")
 set pidl   = ("211")
 
