@@ -1,5 +1,7 @@
 #!/usr/local/bin/tcsh -f
 
+# -mxp-
+# 
 setenv HOME /phenix/u/hachiya
 setenv prompt 1
 source /etc/csh.login
