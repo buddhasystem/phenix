@@ -31,9 +31,13 @@ set jobno     = $1
 set evtnum    = $2
 set inputfile = $3
 
-set scriptdir = "/direct/phenix+hhj/hachiya/15.08/embed/real/dstmerge/wrk/submit"
-set outputdir = "/phenix/hhj2/hachiya/15.08/embed/real"
-set tmpdir    = "/home/tmp/hachiya_job_$jobno"
+set scriptdir = "/direct/phenix+u/mxmp/phenix/embed/real/dstmerge/wrk/submit"
+
+# -mxp- Was:
+# set scriptdir = "/direct/phenix+hhj/hachiya/15.08/embed/real/dstmerge/wrk/submit"
+
+set outputdir = "/direct/phenix+u/mxmp/real"
+set tmpdir    = "/home/tmp/mxmp_job_$jobno"
 
 set infile = `basename $inputfile`
 set runnum = `echo $infile | awk -F'-' '{printf "%d", $2}'`
