@@ -60,7 +60,9 @@ cd       $tmpdir
 
 
 ##pisaToDSTLinker with new library
-/afs/rhic/phenix/software/calibration/data/LuxorLinker.pl -1 $runnum
+/opt/phenix/core/bin/LuxorLinker.pl -1 $runnum
+# -mxp- Was:
+# /afs/rhic/phenix/software/calibration/data/LuxorLinker.pl -1 $runnum
 
 cp ${scriptdir}/Fun4All_CA_merge.C .
 cp ${scriptdir}/OutputManager.C    .
