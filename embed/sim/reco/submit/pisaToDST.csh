@@ -32,10 +32,10 @@ set evtnum    = $2
 set inputfile = $3
 set outfile   = $4
 
-set scriptdir = "/phenix/hhj/hachiya/15.08/embed/sim/reco/submit"
+set scriptdir = "/direct/phenix+u/mxmp/phenix/embed/sim/reco/submit"
 #set outputdir = "/phenix/hhj2/hachiya/15.08/embed/sim/reco/"
-set outputdir = "/phenix/hhj2/hachiya/15.08/embed/sim/reco_409471/"
-set tmpdir    = "/home/tmp/hachiya_job_$jobno"
+set outputdir = "/direct/phenix+u/mxmp/"
+set tmpdir    = "/home/tmp/mxmp_job_$jobno"
 
 set infile = `basename $inputfile`
 
