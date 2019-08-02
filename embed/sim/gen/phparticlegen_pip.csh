@@ -1,41 +1,53 @@
 #!/usr/local/bin/tcsh -f
 
 echo 'location of libraries:' $HOME/install/lib
-ls $HOME/install/lib
+# ls $HOME/install/lib
 
 source /opt/phenix/bin/phenix_setup.csh
 setenv LD_LIBRARY_PATH $HOME/install/lib/:$LD_LIBRARY_PATH
 
 echo $LD_LIBRARY_PATH
 
-set max = 97
+# Start simplified script:
+set pname = "pip"
+set pid = "211"
+set i = 1
 
-#set pname = "em"
-#set pid   = "11"
+set outname = `printf "gen_%s_xyvtx_%06d.root" $pname $i`
 
-#set pnamel = ("em" "pip" "pim")
-#set pidl   = ("11" "211" "-211")
+echo $outname
+root -b -q  'phparticlegen_pip.C(10, '$pid', "'"$outname"'")'
 
-set pnamel = ("pip")
-set pidl   = ("211")
+exit 0
 
-@ idx = 1
-foreach pname ($pnamel)
-  set pid = $pidl[$idx]
-  echo "$pname, $pid"
+
+# Historical settings:, already commented out by TakashiL
+# set pname = "em" #set pid   = "11" #set pnamel = ("em" "pip" "pim") #set pidl   = ("11" "211" "-211")
+
+
+
+# -- below is Takashi's original script:
+# set max = 97
+# set pnamel = ("pip")
+# set pidl   = ("211")
+
+# @ idx = 1
+# foreach pname ($pnamel)
+#   set pid = $pidl[$idx]
+#   echo "$pname, $pid"
   
-  @ i = 96
-  while ( ${i} < ${max} )
+#   @ i = 96
+#   while ( ${i} < ${max} )
   
-  #  set outname = `printf "gen_ep_%06d.root" $i`
-    set outname = `printf "gen_%s_xyvtx_%06d.root" $pname $i`
+#   #  set outname = `printf "gen_ep_%06d.root" $i`
+#     set outname = `printf "gen_%s_xyvtx_%06d.root" $pname $i`
   
-  #  root -b -q 'phparticlegen_pip.C(1000, "'"$outname"'")'
-  echo  'phparticlegen_pip.C(10000, '$pid', "'"$outname"'")'
-  root -b -q  'phparticlegen_pip.C(10000, '$pid', "'"$outname"'")'
+#   #  root -b -q 'phparticlegen_pip.C(1000, "'"$outname"'")'
+#   echo  'phparticlegen_pip.C(10000, '$pid', "'"$outname"'")'
+#   root -b -q  'phparticlegen_pip.C(10000, '$pid', "'"$outname"'")'
   
-    @ i ++
-  end
+#     @ i ++
+#   end
 
-  @ idx ++
-end
+#   @ idx ++
+# end
