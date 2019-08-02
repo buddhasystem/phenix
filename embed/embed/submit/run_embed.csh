@@ -1,6 +1,6 @@
 #!/usr/local/bin/tcsh -f
 
-setenv HOME /phenix/u/hachiya
+#setenv HOME /phenix/u/hachiya
 setenv prompt 1
 source /etc/csh.login
 foreach i (/etc/profile.d/*.csh)
@@ -13,7 +13,9 @@ unsetenv ROOTSYS
 
 source /opt/phenix/bin/phenix_setup.csh new
 #setenv LD_LIBRARY_PATH /phenix/hhj/hachiya/15.08/source/cgl/install/lib/:/phenix/hhj/hachiya/15.08/source/embedreco/install/lib/:/phenix/hhj/hachiya/15.08/source/svx_cent_ana/install/lib/:$LD_LIBRARY_PATH
-setenv LD_LIBRARY_PATH /phenix/hhj/hachiya/15.08/source/svx_cent_ana/install/lib/:$LD_LIBRARY_PATH
+
+# make sure the path is set elsewhere (for now)
+#setenv LD_LIBRARY_PATH /phenix/hhj/hachiya/15.08/source/svx_cent_ana/install/lib/:$LD_LIBRARY_PATH
 
 ##################################
 
@@ -29,6 +31,8 @@ if( $#argv != 7) then
   exit -1
 endif
 
+echo "Setting internal variables..."
+
 #set runnum    = "409471"
 set jobno     = $1
 set evtnum    = $2
@@ -38,16 +42,17 @@ set outdst    = $5
 set outntuple = $6
 set outntana  = $7
 
-set scriptdir   = "/direct/phenix+hhj/hachiya/15.08/embed/embed/submit"
-set outdstdir   = "/phenix/hhj2/hachiya/15.08/embed/embed/dst"
-set outntdir    = "/phenix/hhj2/hachiya/15.08/embed/embed/ntuple"
-set outntanadir = "/phenix/hhj2/hachiya/15.08/embed/embed/ntana"
-set tmpdir      = "/home/tmp/hachiya_job_$jobno"
+set scriptdir   = "/direct/phenix+u/mxmp/phenix/embed/embed/submit"
+set outdstdir   = "/direct/phenix+u/mxmp/outdstdir"
+set outntdir    = "/direct/phenix+u/mxmp/outntdir"
+set outntanadir = "/direct/phenix+u/mxmp/outanadir"
+set tmpdir      = "/home/tmp/mxmp_job_$jobno"
 
 set inreal = `basename $inputreal`
 set insim  = `basename $inputsim`
 
 set runnum = `echo $inreal | awk -F'-' '{printf "%d", $2}'`
+
 
 
 echo "runnum       $runnum     "
@@ -74,7 +79,7 @@ cd       $tmpdir
 
 
 ##pisaToDSTLinker with new library
-/afs/rhic/phenix/software/calibration/data/LuxorLinker.pl -1 $runnum
+/opt/phenix/core/bin/LuxorLinker.pl -1 $runnum
 
 cp ${scriptdir}/Fun4All_embedeval.C .
 #cp ${scriptdir}/Fun4All_embedeval_svx.C .
