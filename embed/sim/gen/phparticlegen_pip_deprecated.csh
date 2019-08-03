@@ -1,5 +1,13 @@
 #!/usr/local/bin/tcsh -f
 
+################################################################
+# DISCLAIMER: DEPRECATED VERSION
+#
+# This is modeled after Takashi's script (see the commented section
+# on the bottom. Now a renamed copy will be created for cleaner
+# set up.
+
+
 echo 'location of libraries:' $HOME/install/lib
 # ls $HOME/install/lib
 
