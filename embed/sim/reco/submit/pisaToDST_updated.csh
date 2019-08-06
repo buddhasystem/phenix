@@ -1,8 +1,21 @@
 #!/usr/local/bin/tcsh -f
 
-# -mxp-
-# 
-setenv HOME /phenix/u/hachiya
+################################################################
+# This is based on the original logic by Takashi.
+#
+# The idea is to set up the environment in a uniform way to facilitate
+# accessing data among the various stages of the embedding process.
+#
+# For that reason the script embed/setup/embedding_setup template
+# needs to be used (after modification appropriate for the user)
+
+# --Maxim Potekhin /mxp/--
+
+if (! $?EMBEDDING_HOME) then       
+echo "Environment not set, exiting..."
+exit -1   
+endif
+
 setenv prompt 1
 source /etc/csh.login
 foreach i (/etc/profile.d/*.csh)
@@ -14,39 +27,36 @@ unsetenv ONLINE_MAIN
 unsetenv ROOTSYS
 
 source /opt/phenix/bin/phenix_setup.csh new
-#setenv LD_LIBRARY_PATH /phenix/subsys/vtx/hachiya/12.02/install/lib:$LD_LIBRARY_PATH
 
 ##################################
 
-if( $#argv != 4) then
+if( $#argv != 3) then
   echo "pisaToDST.csh num"
   echo "   num = job number"
   echo "   evtnum = Nevent"
   echo "   infile = inputfile"
-  echo "   outfile = outputfile"
+#  echo "   outfile = outputfile"
   exit -1
 endif
 
 set jobno     = $1
 set evtnum    = $2
 set inputfile = $3
-set outfile   = $4
+set outfile   = "pisatodst_${evtnum}_${jobno}.root"
 
-set scriptdir = "/direct/phenix+u/mxmp/phenix/embed/sim/reco/submit"
-#set outputdir = "/phenix/hhj2/hachiya/15.08/embed/sim/reco/"
-set outputdir = "/direct/phenix+u/mxmp/"
-set tmpdir    = "/home/tmp/mxmp_job_$jobno"
+set scriptdir = $EMBEDDING_HOME/sim/reco/submit
+set outputdir = $DATADIR
+set tmpdir    = "/home/tmp/${USER}_job_$jobno"
 
 set infile = `basename $inputfile`
 
 
-echo $jobno
-echo $evtnum
-echo $inputfile
-echo $outfile
-echo $scriptdir
-echo $tmpdir
-
+echo Job number $jobno
+echo Number of events $evtnum
+echo Input file $inputfile
+echo Output file $outfile
+echo Script directory $scriptdir
+echo Tmp directory $tmpdir
 
 #move to wrk directory
 if( ! -d $tmpdir ) then
@@ -70,8 +80,6 @@ cp ${scriptdir}/pisaToDST_IOManager.C .
 cp ${scriptdir}/svxPISA.par .
 cp ${scriptdir}/svx_threshold.dat .
 
-#link input file
-#ln -s $inputfile .
 cp $inputfile .
 
 ls 

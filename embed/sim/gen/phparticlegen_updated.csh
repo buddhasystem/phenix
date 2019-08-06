@@ -12,7 +12,7 @@
 
 # --Maxim Potekhin /mxp/--
 
-if (! $?EMBEDDING_SET) then       
+if (! $?EMBEDDING_HOME) then       
 echo "Environment not set, exiting..."
 exit -1   
 endif
@@ -29,7 +29,7 @@ echo 'Statistics:' $N
 source /opt/phenix/bin/phenix_setup.csh
 setenv LD_LIBRARY_PATH $MYINSTALL/lib:$LD_LIBRARY_PATH
 
-echo $LD_LIBRARY_PATH
+echo LD_LIBRARY_PATH $LD_LIBRARY_PATH
 
 # Start simplified script:
 set pname = "pip"

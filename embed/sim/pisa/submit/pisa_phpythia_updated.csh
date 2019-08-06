@@ -11,7 +11,7 @@
 
 # --Maxim Potekhin /mxp/--
 
-if (! $?EMBEDDING_SET) then       
+if (! $?EMBEDDING_HOME) then       
 echo "Environment not set, exiting..."
 exit -1   
 endif
@@ -42,7 +42,7 @@ endif
 set jobno     = $1
 set nevent    = $2
 set inputfile = $3
-set scriptdir = $HOME/phenix/embed/sim/pisa/submit
+set scriptdir = $EMBEDDING_HOME/sim/pisa/submit
 set outputdir = $DATADIR
 set tmpdir    = "/home/tmp/"$USER"_job_$jobno"
 

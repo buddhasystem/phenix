@@ -7,10 +7,10 @@
 
 #!/usr/local/bin/tcsh -f
 
-setenv EMBEDDING_SET	"YES"
+setenv EMBEDDING_HOME	${HOME}/phenix/embed
 
-setenv DATADIR		/phenix/u/mxmp/embedding_data
-setenv MYINSTALL	/phenix/u/mxmp/install
+setenv DATADIR		${HOME}/embedding_data
+setenv MYINSTALL	${HOME}/install
 
 if ( -d $DATADIR) then
     echo Data directory $DATADIR found
