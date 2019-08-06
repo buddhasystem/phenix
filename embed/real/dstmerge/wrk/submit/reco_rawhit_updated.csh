@@ -1,6 +1,24 @@
 #!/usr/local/bin/tcsh -f
 
-setenv HOME /phenix/u/hachiya
+
+# Make the data DST with raw detector hits
+
+################################################################
+# This is based on the original logic by Takashi.
+#
+# The idea is to set up the environment in a uniform way to facilitate
+# accessing data among the various stages of the embedding process.
+#
+# For that reason the script embed/setup/embedding_setup template
+# needs to be used (after modification appropriate for the user)
+
+# --Maxim Potekhin /mxp/--
+
+if (! $?EMBEDDING_HOME) then       
+echo "Environment not set, exiting..."
+exit -1   
+endif
+
 setenv prompt 1
 source /etc/csh.login
 foreach i (/etc/profile.d/*.csh)
@@ -12,7 +30,7 @@ unsetenv ONLINE_MAIN
 unsetenv ROOTSYS
 
 source /opt/phenix/bin/phenix_setup.csh new
-setenv LD_LIBRARY_PATH /phenix/u/mxmp/install/lib:$LD_LIBRARY_PATH
+setenv LD_LIBRARY_PATH $MYINSTALL/lib:$LD_LIBRARY_PATH
 
 # -mxp- Was:
 # /phenix/hhj/hachiya/15.08/embed/real/dstmerge/install/lib:/phenix/hhj/hachiya/15.08/source/embedreco/install/lib/
@@ -20,7 +38,7 @@ setenv LD_LIBRARY_PATH /phenix/u/mxmp/install/lib:$LD_LIBRARY_PATH
 ##################################
 
 if( $#argv != 3) then
-  echo "reco_rawhit.csh num"
+  echo "reco_rawhit_updated.csh num"
   echo "   num = job number"
   echo "   evtnum = Nevent"
   echo "   infile = inputfile"
@@ -31,13 +49,13 @@ set jobno     = $1
 set evtnum    = $2
 set inputfile = $3
 
-set scriptdir = "/direct/phenix+u/mxmp/phenix/embed/real/dstmerge/wrk/submit"
+set scriptdir = "$EMBEDDING_HOME/real/dstmerge/wrk/submit"
 
 # -mxp- Was:
 # set scriptdir = "/direct/phenix+hhj/hachiya/15.08/embed/real/dstmerge/wrk/submit"
 
-set outputdir = "/direct/phenix+u/mxmp/real"
-set tmpdir    = "/home/tmp/mxmp_job_$jobno"
+set outputdir = $DATADIR
+set tmpdir    = "/home/tmp/${USER}_job_$jobno"
 
 set infile = `basename $inputfile`
 set runnum = `echo $infile | awk -F'-' '{printf "%d", $2}'`
@@ -69,10 +87,22 @@ cp ${scriptdir}/OutputManager.C    .
 cp ${scriptdir}/QA.C               .
 cp ${scriptdir}/TrigSelect.C.run14auau200  TrigSelect.C
 cp ${scriptdir}/rawdatacheck.C     .
-
+cp ${scriptdir}/copy_prdf.pl .
 #copy input file
-#cp $inputfile .
-${HOME}/copy_prdf.pl $infile
+cp $inputfile .
+#./copy_prdf.pl $infile
+
+set copyErrCode = $?
+echo '==========================ERROR CODE=================================' $copyErrCode
+
+if ( $copyErrCode != 0 ) then
+echo Could not get the input file $inputfile, exiting
+cd $HOME
+rm -fr $tmpdir
+echo "removed $tmpdir"
+exit $copyErrCode
+endif
+
 
 
 #generate input file
