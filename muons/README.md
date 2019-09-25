@@ -11,6 +11,6 @@ Please note that the material here may contain modifications needed for basic te
 # Local dependencies
 This is work in progress, so subject to change. The script and macro make an assumption that
 the following files are local, so they have been added to the repo:
-   realdataBG-run15pp_file.list
-   svxPISA.par
-   fvtx_geometry.root
+* realdataBG-run15pp_file.list
+* svxPISA.par
+* fvtx_geometry.root
