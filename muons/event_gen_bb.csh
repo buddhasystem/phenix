@@ -14,12 +14,23 @@ env
 # set localdir = /gpfs02/phenix/fvtx/subsys/fvtx/ajeeta/Simulation
 set localdir = `pwd`
 
+
+# -mxp- to quickly refer to the original data artifacts, let's define a variable,
+# this can be changed later
+
+set projectdir = /gpfs02/phenix/fvtx/subsys/fvtx/ajeeta/Simulation
+
+
 mkdir ${localdir}/PISA
 set prefix = bb
 #set nEvts = 2000
 set nEvts = 10000000
 set iter = 0
-mkdir ${localdir}/pythia_files_${prefix}
+
+# -mxp- No need to create this for now:
+# mkdir ${localdir}/pythia_files_${prefix}
+
+mkdir ${localdir}/PISA # -mxp- this seems to be used
 mkdir ${localdir}/PISA/PISAEvent_${prefix}
 mkdir ${localdir}/DST_sim_${prefix}
 mkdir ${localdir}/DST_embed_${prefix}
@@ -33,23 +44,29 @@ set run=`echo ${realdatafile} | cut -d_ -f3 | cut -d. -f1`
 echo run: ${run}
 set runnumber=`echo ${run} | cut -d- -f1 | sed s/0000//`
 echo runnumber: ${runnumber}
-set pythia_file=${localdir}/pythia_files_${prefix}/pythia_${prefix}-${dataset}-${run}-${iter}.root
-set norm_file=${localdir}/pythia_files_${prefix}/normalization_${prefix}-${dataset}-${run}-${iter}.root
-set pisafile=${localdir}/PISA/PISAEvent_${prefix}/PISAEvent_${prefix}-${dataset}-${run}-${iter}.root
-set dstfile=${localdir}/DST_sim_${prefix}/dst_sim_${prefix}-${dataset}-${run}-${iter}.root
+
+# -mxp- note projectdir (was localdir)
+set pythia_file=${projectdir}/pythia_files_${prefix}/pythia_${prefix}-${dataset}-${run}-${iter}.root
+set norm_file=${projectdir}/pythia_files_${prefix}/normalization_${prefix}-${dataset}-${run}-${iter}.root
+set pisafile=${projectdir}/PISA/PISAEvent_${prefix}/PISAEvent_${prefix}-${dataset}-${run}-${iter}.root
+
+# -mxp- am I guessing right here?
+set dstfile=${projectdir}/DST_sim_${prefix}/dst_sim_${prefix}-${dataset}-${run}-${iter}.root
 set dstembed=${localdir}/DST_embed_${prefix}/dst_embed_${prefix}-${dataset}-${run}-${iter}.root
+
 set pdstfile=${localdir}/pDST_${prefix}/singlemuon_${prefix}_embed_pdst-${dataset}-${run}-${iter}.root
 #if ( -e ${pisafile} ) exit
 cd ${localdir}/PISA
 mkdir ${localdir}/PISA/${1}
 cd ${localdir}/PISA/${1}
-ln -sf ${localdir}/g3tog4_${prefix}.C ${localdir}/PISA/${1}/
-ln -sf ${localdir}/geom_run15_v2.root geom.root
-ln -sf ${localdir}/Sim3D++.root ${localdir}/PISA/${1}/
-ln -sf ${localdir}/g4libs.C ${localdir}/PISA/${1}/
-ln -sf ${localdir}/pythia_configuration/phpythia8_${prefix}.cfg ${localdir}/PISA/${1}/
-#root -b -q g3tog4_${prefix}.C\(${nEvts},${skip},${runnumber},\"${realdatafile}\",\"${pythia_file}\",\"${norm_file}\"\)
-#mv -f PISAEvent.root ${pisafile}
+
+# -mxp- note projectdir which replaced localdir in the lines below
+ln -sf ${projectdir}/g3tog4_${prefix}.C ${localdir}/PISA/${1}/
+ln -sf ${projectdir}/geom_run15_v2.root geom.root
+ln -sf ${projectdir}/Sim3D++.root ${localdir}/PISA/${1}/
+ln -sf ${projectdir}/g4libs.C ${localdir}/PISA/${1}/
+ln -sf ${projectdir}/pythia_configuration/phpythia8_${prefix}.cfg ${localdir}/PISA/${1}/
+
 cd ${localdir}
-#root -b -q Fun4FVTX_Pisa.C\(${nEvts},\"${pisafile}\",\"${pythia_file}\",${runnumber},\"${dstfile}\",\"\",\"\",\"\",\"\"\)
+
 root -b -q Fun4FVTX_RecoDST_sim_reass.C\(${nEvts},\"${dstfile}\",\"${realdatafile}\",\"${pythia_file}\",${runnumber},\"\",\"${dstembed}\",\"\",\"\",\"${pdstfile}\"\)
