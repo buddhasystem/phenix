@@ -8,3 +8,9 @@ were transferred from the original project:
 # Caveat Emptor
 Please note that the material here may contain modifications needed for basic testing, where appropriate the scripts will contain the signage "-mxp-" to mark the code locations where (obvious) changes were made.
 
+# Local dependencies
+This is work in progress, so subject to change. The script and macro make an assumption that
+the following files are local, so they have been added to the repo:
+   realdataBG-run15pp_file.list
+   svxPISA.par
+   fvtx_geometry.root
