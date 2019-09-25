@@ -10,7 +10,10 @@ setenv LD_LIBRARY_PATH /phenix/u/slash/workarea/offline/analysis/snowball/vgm-4.
 #setenv LD_LIBRARY_PATH /phenix/u/slash/workarea/offline/AnalysisTrain/picoDST_object/install/lib:${LD_LIBRARY_PATH}
 echo "after lib path set"
 env
-set localdir = /gpfs02/phenix/fvtx/subsys/fvtx/ajeeta/Simulation
+# -mxp-
+# set localdir = /gpfs02/phenix/fvtx/subsys/fvtx/ajeeta/Simulation
+set localdir = `pwd`
+
 mkdir ${localdir}/PISA
 set prefix = bb
 #set nEvts = 2000
