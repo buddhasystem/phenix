@@ -14,3 +14,8 @@ the following files are local, so they have been added to the repo:
 * realdataBG-run15pp_file.list
 * svxPISA.par
 * fvtx_geometry.root
+
+# Updated driver script
+
+The "full" script contains extra ROOT macros not present in the original version,
+the "new" script is work in progress and is expected to be portable.
